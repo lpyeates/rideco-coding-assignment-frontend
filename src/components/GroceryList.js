@@ -49,10 +49,14 @@ const GroceryList = () => {
   //Fnc to handle deleting a grocery item
   const handleDelete = async (id) => {
     try {
-      const response = await axios.delete(
-        `http://localhost:8000/groceries/${id}`
-      );
-      setGroceryItems(groceryItems.filter((item) => item.id !== id));
+      if (editGroceryItem && editGroceryItem.id != id){
+        const response = await axios.delete(
+          `http://localhost:8000/groceries/${id}`
+        );
+        setGroceryItems(groceryItems.filter((item) => item.id !== id));
+      }else{
+        throw "Cannot delete item in Edit State"
+      }
     } catch (error) {
       console.error('Error deleting grocery item', error);
     }
@@ -76,6 +80,7 @@ const GroceryList = () => {
                     className="form-control"
                     value={newGroceryItem.name}
                     onChange={(e) => setNewGroceryItem({...newGroceryItem, name: e.target.value})}
+                    required
                   />
                 </div>
                 <div className="form-group">
@@ -85,11 +90,12 @@ const GroceryList = () => {
                     className="form-control"
                     value={newGroceryItem.quantity}
                     onChange={(e) => setNewGroceryItem({...newGroceryItem, quantity: e.target.value})}
+                    required
                   />
                 </div>
                 <div className="form-group">
                   <label>Status</label>
-                  <select className="form-control" onChange={(e) => setNewGroceryItem({...newGroceryItem, status: e.target.value})}>
+                  <select className="form-control" onChange={(e) => setNewGroceryItem({...newGroceryItem, status: e.target.value})} required>
                   <option value=""></option>
                     <option value="To Buy">To Buy</option>
                     <option value="Purchased">Purchased</option>
@@ -149,7 +155,7 @@ const GroceryList = () => {
           <div className="col-md-6">
             <div className="card">
             <div className='card-body'>
-              <h5 className="card-title">Add Item to List</h5>
+              <h5 className="card-title">Edit List Item</h5>
               <form>
                 <div className="form-group">
                   <label>Name:</label>
@@ -158,6 +164,7 @@ const GroceryList = () => {
                     className="form-control"
                     value={editGroceryItem.name}
                     onChange={(e) => setEditGroceryItem({...editGroceryItem, name: e.target.value})}
+                    required
                   />
                 </div>
                 <div className="form-group">
@@ -167,11 +174,12 @@ const GroceryList = () => {
                     className="form-control"
                     value={editGroceryItem.quantity}
                     onChange={(e) => setEditGroceryItem({...editGroceryItem, quantity: e.target.value})}
+                    required
                   />
                 </div>
                 <div className="form-group">
                   <label>Status</label>
-                  <select className="form-control" onChange={(e) => setEditGroceryItem({...editGroceryItem, status: e.target.value})}>
+                  <select className="form-control" onChange={(e) => setEditGroceryItem({...editGroceryItem, status: e.target.value})} required>
                     <option value="To Buy">To Buy</option>
                     <option value="Purchased">Purchased</option>
                   </select>
