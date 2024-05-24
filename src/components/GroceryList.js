@@ -14,7 +14,7 @@ const GroceryList = () => {
   //fnc to get data from BE
   const fetchData = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/groceries/');
+      const response = await axios.get('http://0.0.0.0:8000/groceries/');
       setGroceryItems(response.data);
     } catch (error) {
       console.error('Error getting grocery list', error);
